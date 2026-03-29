@@ -116,6 +116,35 @@ int Rsum(struct Node *p)
     }
 }
 
+
+int Max (struct Node *p)
+{
+  int max  = INT32_MIN;
+
+  while(p)
+  {
+    if(p->data > max)
+    {
+      max = p->data;
+
+    }
+    p=p->next;
+  }
+  return max;
+}
+
+
+int Rmax(struct Node *p)
+{
+  int x = 0;
+  if(p==0)
+  {
+    return INT32_MIN;
+  }
+  x = Rmax(p->next);
+  return x>p->data ? x :  p->data;
+}
+
 int main()
 {
 
@@ -123,7 +152,8 @@ int main()
     create(A, 8);
     // Rdisplay(first);
 
-    cout << "\n\nLength is \n" << Rcount2(first) << endl<< "and the sum is \n"<< sum(first) << "\nand Rsum is \n" << Rsum(first)<< endl;
+    // cout << "\n\nLength is \n" << Rcount2(first) << endl<< "and the sum is \n"<< sum(first) << "\nand Rsum is \n" << Rsum(first)<< endl;
 
+    cout << Rmax(first) <<endl;
     return 0;
 }
