@@ -195,80 +195,92 @@ void Insert(struct Node *p, int index, int value)
     }
 }
 
-void SortedInsert(struct Node *p,int x)
+void SortedInsert(struct Node *p, int x)
 {
-    struct Node *t,*q = NULL;
+    struct Node *t, *q = NULL;
 
     t = new Node;
     t->data = x;
     t->next = NULL;
 
-    if(first == NULL)
-    first = t;
-    else{
-        while (p && p->data <x)
+    if (first == NULL)
+        first = t;
+    else
+    {
+        while (p && p->data < x)
         {
             q = p;
-            p= p->next;
+            p = p->next;
         }
-        if(p==first)
+        if (p == first)
         {
             t->next = first;
             first = t;
         }
-        else{
+        else
+        {
             t->next = q->next;
             q->next = t;
         }
     }
-
 }
 
-void Delete (struct Node *p,int index)
+void Delete(struct Node *p, int index)
 {
-    struct Node *q =NULL;
-    int x =-1,i;
-    if(index< 1 || index >count(p))
+    struct Node *q = NULL;
+    int x = -1, i;
+    if (index < 1 || index > count(p))
     {
         cout << "invalid index" << endl;
     }
-    if(index ==1)
+    if (index == 1)
     {
         q = first;
         x = first->data;
         first = first->next;
         delete q;
-        cout << "deleted element is"<< x<<endl;
+        cout << "deleted element is" << x << endl;
     }
-    else {
+    else
+    {
 
-
-        for(i=0;i<index-1;i++)
+        for (i = 0; i < index - 1; i++)
         {
-            q=p;
-            p=p->next;
+            q = p;
+            p = p->next;
         }
         q->next = p->next;
         x = p->data;
         delete p;
-        cout <<"deleted element is "<<  x<<endl;
+        cout << "deleted element is " << x << endl;
     }
-
-
 }
 
+int isSorted(struct Node *p)
+{
+    int x = INT_MIN;
+    while (p != NULL)
+    {
+        if (p->data < x)
+            return 0;
+        x = p->data;
+        p = p->next;
+    }
+    return 1;
+}
 
 int main()
 {
     struct Node *temp;
-    int A[] = {10, 20, 30,40,50};
+    int A[] = {10, 20, 30, 40, 50};
     create(A, 5);
-    
-Delete(first,2);
 
+    Delete(first, 2);
 
-    cout << "the linked list is : " ;
-     Rdisplay(first) ;
+    cout << "the linked list is : ";
+    Rdisplay(first);
+    cout << endl
+         << "Is it sorted ? : " << (isSorted(first) ? "yes bro it is sorted" : "Not sorted");
     cout << endl;
     return 0;
 }
