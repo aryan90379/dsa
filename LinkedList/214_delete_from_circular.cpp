@@ -151,7 +151,7 @@ int main()
     create(A, 5);
 
     // Insert(Head,3,12);
-    Delete(Head, 3);
+    Delete(Head, 8);
     // Display(Head);
     Display(Head);
     return 0;

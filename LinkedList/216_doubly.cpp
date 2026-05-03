@@ -84,38 +84,11 @@ void Insert(Node *p, int index, int x)
     }
 }
 
-
-int Delete(Node *p,int index)
-{
-    struct Node *q;
-    int x = -1,i;
-    if(index < 1 || index >Length (p)) return -1;
-
-    if(index ==1)
-    {
-        first = first ->next;
-        if(first) first->prev = NULL;
-        x = p->data;
-        delete p;
-    }
-    else {
-        for(i=0;i<index-1;i++) p = p->next;
-        p->prev->next = p->next;
-        if(p->next) p->next->prev = p->prev;
-        x = p->data;
-        delete p; // free (p)
-    }
-    return x;
-}
-
 int main()
 {
     int A[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     create(A, 5);
-    Insert(first,5,23);
-    Delete(first,5);
     Display(first);
-    cout << "esfad";
     
     cout << "Length of Linked List is: " << Length(first) << endl;
     return 0;

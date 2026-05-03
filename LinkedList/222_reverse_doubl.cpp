@@ -24,7 +24,7 @@ void create(int A[], int n)
         t = new Node;
         t->data = A[i];
         t->next = NULL;
-        t->prev = last->next;
+        t->prev = last;
         last->next = t;
         last = t;
     }
@@ -108,14 +108,32 @@ int Delete(Node *p,int index)
     return x;
 }
 
+
+void Reverse(Node *p)
+{
+    Node *temp = NULL;
+
+    while(p)
+    {
+        temp = p->next;
+        p->next = p->prev;
+        p->prev = temp;
+
+        // move to next node (which is prev now)
+        if(p->prev == NULL)
+            first = p;
+        p = p->prev;
+    }
+}
+
+
 int main()
 {
     int A[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     create(A, 5);
-    Insert(first,5,23);
-    Delete(first,5);
+  
+    Reverse(first);
     Display(first);
-    cout << "esfad";
     
     cout << "Length of Linked List is: " << Length(first) << endl;
     return 0;

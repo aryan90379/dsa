@@ -24,7 +24,7 @@ void create(int A[], int n)
         t = new Node;
         t->data = A[i];
         t->next = NULL;
-        t->prev = last->next;
+        t->prev = last;
         last->next = t;
         last = t;
     }
@@ -84,39 +84,74 @@ void Insert(Node *p, int index, int x)
     }
 }
 
-
-int Delete(Node *p,int index)
+int Delete(Node *p, int index)
 {
     struct Node *q;
-    int x = -1,i;
-    if(index < 1 || index >Length (p)) return -1;
+    int x = -1, i;
+    if (index < 1 || index > Length(p))
+        return -1;
 
-    if(index ==1)
+    if (index == 1)
     {
-        first = first ->next;
-        if(first) first->prev = NULL;
+        first = first->next;
+        if (first)
+            first->prev = NULL;
         x = p->data;
         delete p;
     }
-    else {
-        for(i=0;i<index-1;i++) p = p->next;
+    else
+    {
+        for (i = 0; i < index - 1; i++)
+            p = p->next;
         p->prev->next = p->next;
-        if(p->next) p->next->prev = p->prev;
+        if (p->next)
+            p->next->prev = p->prev;
         x = p->data;
         delete p; // free (p)
     }
     return x;
 }
 
+void Reverse(Node *p)
+{
+    Node *temp = NULL;
+
+    while (p)
+    {
+        temp = p->next;
+        p->next = p->prev;
+        p->prev = temp;
+
+        // move to next node (which is prev now)
+        if (p->prev == NULL)
+            first = p;
+        p = p->prev;
+    }
+}
+
+int middle(Node *p)
+{
+    Node *q;
+    q = p;
+    while (p)
+    {
+        p = p->next;
+        if (p)
+            p = p->next;
+        if(p) q = q->next;
+    }
+    return q->data;
+}
+
 int main()
 {
     int A[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    create(A, 5);
-    Insert(first,5,23);
-    Delete(first,5);
+    create(A, 7);
+
+    // Reverse(first);
     Display(first);
-    cout << "esfad";
-    
+    cout << "Middle value is: " << middle(first) <<endl;
+
     cout << "Length of Linked List is: " << Length(first) << endl;
     return 0;
 }

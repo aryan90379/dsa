@@ -24,7 +24,7 @@ void create(int A[], int n)
         t = new Node;
         t->data = A[i];
         t->next = NULL;
-        t->prev = last->next;
+        t->prev = last;
         last->next = t;
         last = t;
     }
@@ -113,7 +113,7 @@ int main()
     int A[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     create(A, 5);
     Insert(first,5,23);
-    Delete(first,5);
+    Delete(first,6);
     Display(first);
     cout << "esfad";
     
