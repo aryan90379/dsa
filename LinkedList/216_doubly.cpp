@@ -88,6 +88,7 @@ int main()
 {
     int A[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     create(A, 5);
+    Insert(first,2,2);
     Display(first);
     
     cout << "Length of Linked List is: " << Length(first) << endl;

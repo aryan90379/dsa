@@ -13,13 +13,12 @@ struct Node
 void create(int A[], int n)
 {
     struct Node *t, *last;
-    int i;
     first = new Node;
     first->data = A[0];
     first->prev = first->next = NULL;
     last = first;
 
-    for (i = 1; i < n; i++)
+    for (int i = 1; i < n; i++)
     {
         t = new Node;
         t->data = A[i];
@@ -32,12 +31,12 @@ void create(int A[], int n)
 
 void Display(struct Node *p)
 {
-    static int flag = 0;
     while (p)
     {
-        if (p->next == NULL)
-            flag = 1;
-        (flag == 0) ? (cout << p->data << " --> ") : (cout << p->data);
+        if (p->next)
+            cout << p->data << " --> ";
+        else
+            cout << p->data;
         p = p->next;
     }
     cout << endl;
@@ -54,64 +53,6 @@ int Length(struct Node *p)
     return len;
 }
 
-void Insert(Node *p, int index, int x)
-{
-    Node *t;
-    int i;
-
-    if (index < 0 || index > Length(p))
-        return;
-    if (index == 0)
-    {
-        t = new Node;
-        t->data = x;
-        t->prev = NULL;
-        t->next = first;
-        first->prev = t;
-        first = t;
-    }
-    else
-    {
-        for (i = 0; i < index - 1; i++)
-            p = p->next;
-        t = new Node;
-        t->data = x;
-        t->next = p->next;
-        t->prev = p;
-        if (p->next)
-            p->next->prev = t;
-        p->next = t;
-    }
-}
-
-int Delete(Node *p, int index)
-{
-    struct Node *q;
-    int x = -1, i;
-    if (index < 1 || index > Length(p))
-        return -1;
-
-    if (index == 1)
-    {
-        first = first->next;
-        if (first)
-            first->prev = NULL;
-        x = p->data;
-        delete p;
-    }
-    else
-    {
-        for (i = 0; i < index - 1; i++)
-            p = p->next;
-        p->prev->next = p->next;
-        if (p->next)
-            p->next->prev = p->prev;
-        x = p->data;
-        delete p; // free (p)
-    }
-    return x;
-}
-
 void Reverse(Node *p)
 {
     Node *temp = NULL;
@@ -122,36 +63,85 @@ void Reverse(Node *p)
         p->next = p->prev;
         p->prev = temp;
 
-        // move to next node (which is prev now)
         if (p->prev == NULL)
             first = p;
+
         p = p->prev;
     }
 }
 
 int middle(Node *p)
 {
-    Node *q;
-    q = p;
+    Node *q = p;
     while (p)
     {
         p = p->next;
-        if (p)
-            p = p->next;
-        if(p) q = q->next;
+        if (p) p = p->next;
+        if (p) q = q->next;
     }
     return q->data;
 }
 
+Node* intersectionTwoPointer(Node* head1, Node* head2)
+{
+    // Step 1: if any list is empty → no intersection
+    if (head1 == NULL || head2 == NULL)
+        return NULL;
+
+    Node* p1 = head1;
+    Node* p2 = head2;
+
+    // Step 2: loop until both pointers are equal
+    while (p1 != p2)
+    {
+        // move pointer of list1
+        if (p1 == NULL)
+            p1 = head2;   // jump to other list
+        else
+            p1 = p1->next;
+
+        // move pointer of list2
+        if (p2 == NULL)
+            p2 = head1;   // jump to other list
+        else
+            p2 = p2->next;
+    }
+
+    // Step 3: either intersection node OR NULL
+    return p1;
+}
+
 int main()
 {
-    int A[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int A[7] = {1, 2, 3, 4, 5, 6, 7};
     create(A, 7);
 
-    // Reverse(first);
-    Display(first);
-    cout << "Middle value is: " << middle(first) <<endl;
+    // create second list
+    Node *second = new Node;
+    second->data = 100;
+    second->prev = NULL;
 
-    cout << "Length of Linked List is: " << Length(first) << endl;
+    Node *temp = new Node;
+    temp->data = 200;
+    temp->prev = second;
+
+    second->next = temp;
+
+    // 🔥 Make intersection at node 4
+    temp->next = first->next->next->next; 
+
+    cout << "First List:\n";
+    Display(first);
+
+    cout << "Second List:\n";
+    Display(second);
+
+    Node* inter = intersectionTwoPointer(first, second);
+
+    if (inter)
+        cout << "Intersection at node with value: " << inter->data << endl;
+    else
+        cout << "No intersection\n";
+
     return 0;
 }
